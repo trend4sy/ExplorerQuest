@@ -79,6 +79,7 @@ public class QuizController : MonoBehaviour
         rt.anchoredPosition = new Vector2(x, y);
         rt.sizeDelta = new Vector2(w, h);
         Text txt = obj.AddComponent<Text>();
+        txt.font = FontHelper.GetDefaultFont();
         txt.text = text;
         txt.fontSize = fontSize;
         txt.alignment = TextAnchor.MiddleCenter;
@@ -113,6 +114,7 @@ public class QuizController : MonoBehaviour
             GameObject txtObj = new GameObject("Text");
             txtObj.transform.SetParent(btnObj.transform, false);
             Text txt = txtObj.AddComponent<Text>();
+            txt.font = FontHelper.GetDefaultFont();
             txt.fontSize = 22;
             txt.alignment = TextAnchor.MiddleCenter;
             txt.color = Color.white;

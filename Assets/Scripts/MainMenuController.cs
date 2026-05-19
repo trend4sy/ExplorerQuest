@@ -48,7 +48,9 @@ public class MainMenuController : MonoBehaviour
         GameObject starsObj = new GameObject("StarsText");
         starsObj.transform.SetParent(canvas.transform, false);
         starsText = starsObj.AddComponent<Text>();
+        starsText.font = FontHelper.GetDefaultFont();
         starsText.fontSize = 40;
+        starsText.color = Color.white;
         starsText.alignment = TextAnchor.MiddleCenter;
         RectTransform starsRect = starsObj.GetComponent<RectTransform>();
         starsRect.anchorMin = new Vector2(0.5f, 0.95f);
@@ -89,6 +91,7 @@ public class MainMenuController : MonoBehaviour
             GameObject txtObj = new GameObject("ButtonText");
             txtObj.transform.SetParent(btnObj.transform, false);
             Text txt = txtObj.AddComponent<Text>();
+            txt.font = FontHelper.GetDefaultFont();
             txt.text = worldEmojis[i] + " " + worldNames[i];
             txt.fontSize = 44;
             txt.alignment = TextAnchor.MiddleCenter;
@@ -112,6 +115,7 @@ public class MainMenuController : MonoBehaviour
             GameObject costObj = new GameObject("CostText");
             costObj.transform.SetParent(container.transform, false);
             Text costTxt = costObj.AddComponent<Text>();
+            costTxt.font = FontHelper.GetDefaultFont();
             costTxt.fontSize = 22;
             costTxt.alignment = TextAnchor.MiddleCenter;
             costTxt.color = Color.white;
