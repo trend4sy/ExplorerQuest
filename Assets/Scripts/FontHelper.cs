@@ -12,7 +12,7 @@ public static class FontHelper
             if (_font == null)
                 _font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             if (_font == null)
-                _font = Font.CreateDynamicFontFromOSFontName("sans-serif", 16);
+                _font = Font.CreateDynamicFontFromOSFont(new[] { "sans-serif", "Droid Sans", "Arial" }, 16);
         }
         return _font;
     }
