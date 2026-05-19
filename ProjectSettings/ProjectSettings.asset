@@ -2,6 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!129 &1
 PlayerSettings:
+  companyName: Trend4Sy
   productName: ExplorerQuest
   applicationIdentifier:
     Android: com.trend4sy.explorerquest
