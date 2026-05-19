@@ -1,0 +1,61 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:   # تشغيل يدوي من GitHub
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # الخطوة 1: تحميل الكود
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # الخطوة 2: Cache لتسريع البناء في المرات القادمة
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: ExplorerQuestUnity/Library
+          key: Library-Android-${{ hashFiles('ExplorerQuestUnity/Assets/**', 'ExplorerQuestUnity/Packages/**', 'ExplorerQuestUnity/ProjectSettings/**') }}
+          restore-keys: |
+            Library-Android-
+            Library-
+
+      # الخطوة 3: بناء APK باستخدام GameCI (مجاني للمستودعات العامة)
+      - name: Build with Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL:   ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath:   ExplorerQuestUnity
+          targetPlatform: Android
+          androidExportType: androidPackage   # ينتج .apk
+          versioning: Semantic
+
+      # الخطوة 4: رفع الـ APK كـ artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ExplorerQuest-APK
+          path: build/Android/*.apk
+          retention-days: 30
+
+      # الخطوة 5 (اختياري): إنشاء Release تلقائي عند وجود tag
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/Android/*.apk
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
