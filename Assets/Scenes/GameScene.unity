@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+SceneSettings:
+  m_PVSData: []
+--- !u!1045 &2
+EditorBuildSettings:
+  m_Scenes: []
+--- !u!207 &3
+AudioListener:
+  m_GameObject: {fileID: 0}
+--- !u!20 &4
+Camera:
+  m_GameObject: {fileID: 5}
+  m_ClearFlags: 2
+  m_Near: 0.3
+  m_Far: 1000
+  m_FieldOfView: 60
+--- !u!1 &5
+GameObject:
+  m_Component:
+  - {fileID: 4}
+  m_Name: Main Camera
