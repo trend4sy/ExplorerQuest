@@ -37,6 +37,23 @@ public class GameManager : MonoBehaviour
         return totalStars >= worldUnlockCost[index];
     }
 
+    void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu")
+        {
+            GameObject mmObj = new GameObject("MainMenuController");
+            mmObj.AddComponent<MainMenuController>();
+        }
+        else if (scene.name == "GameScene")
+        {
+            GameObject qcObj = new GameObject("QuizController");
+            qcObj.AddComponent<QuizController>();
+        }
+    }
+
     public void LoadWorld(int index)
     {
         if (IsWorldUnlocked(index))

@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.EventSystems;
 
 public class QuizController : MonoBehaviour
 {
     [Header("UI References")]
-    public TextMeshProUGUI questionText;
-    public TextMeshProUGUI emojiText;
-    public Button[] answerButtons;         // 4 أزرار إجابة
-    public TextMeshProUGUI[] answerTexts;
-    public TextMeshProUGUI funFactText;
+    public Text questionText;
+    public Text emojiText;
+    public Button[] answerButtons;
+    public Text[] answerTexts;
+    public Text funFactText;
     public GameObject funFactPanel;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI progressText;
-    public GameObject celebrationPanel;   // لوحة الاحتفال بالنجمة
-    public TextMeshProUGUI celebrationText;
+    public Text scoreText;
+    public Text progressText;
+    public GameObject celebrationPanel;
+    public Text celebrationText;
     public GameObject gameOverPanel;
-    public TextMeshProUGUI finalScoreText;
+    public Text finalScoreText;
 
     [Header("Colors")]
     public Color normalColor    = new Color(0.25f, 0.60f, 1.00f);
@@ -72,19 +71,19 @@ public class QuizController : MonoBehaviour
         transform.SetParent(canvasObj.transform, false);
     }
 
-    TextMeshProUGUI MakeText(Transform parent, string name, string text, float x, float y, float w, float h, int fontSize)
+    Text MakeText(Transform parent, string name, string text, float x, float y, float w, float h, int fontSize)
     {
         GameObject obj = new GameObject(name);
         obj.transform.SetParent(parent, false);
         RectTransform rt = obj.AddComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);
         rt.sizeDelta = new Vector2(w, h);
-        TextMeshProUGUI tmp = obj.AddComponent<TextMeshProUGUI>();
-        tmp.text = text;
-        tmp.fontSize = fontSize;
-        tmp.alignment = TextAlignmentOptions.Center;
-        tmp.color = Color.white;
-        return tmp;
+        Text txt = obj.AddComponent<Text>();
+        txt.text = text;
+        txt.fontSize = fontSize;
+        txt.alignment = TextAnchor.MiddleCenter;
+        txt.color = Color.white;
+        return txt;
     }
 
     void CreateQuizUI()
@@ -92,11 +91,11 @@ public class QuizController : MonoBehaviour
         questionText = MakeText(transform, "QuestionText", "", 540, 750, 800, 100, 36);
         emojiText = MakeText(transform, "EmojiText", "", 540, 600, 200, 80, 48);
         scoreText = MakeText(transform, "ScoreText", "⭐ 0", 100, 900, 200, 50, 24);
-        scoreText.alignment = TextAlignmentOptions.Left;
+        scoreText.alignment = TextAnchor.MiddleLeft;
         progressText = MakeText(transform, "ProgressText", "0/5", 980, 900, 200, 50, 24);
-        progressText.alignment = TextAlignmentOptions.Right;
+        progressText.alignment = TextAnchor.MiddleRight;
         answerButtons = new Button[4];
-        answerTexts = new TextMeshProUGUI[4];
+        answerTexts = new Text[4];
         for (int i = 0; i < 4; i++)
         {
             int idx = i;
@@ -113,9 +112,9 @@ public class QuizController : MonoBehaviour
             answerButtons[i] = btn;
             GameObject txtObj = new GameObject("Text");
             txtObj.transform.SetParent(btnObj.transform, false);
-            TextMeshProUGUI txt = txtObj.AddComponent<TextMeshProUGUI>();
+            Text txt = txtObj.AddComponent<Text>();
             txt.fontSize = 22;
-            txt.alignment = TextAlignmentOptions.Center;
+            txt.alignment = TextAnchor.MiddleCenter;
             txt.color = Color.white;
             RectTransform txtRt = txtObj.GetComponent<RectTransform>();
             txtRt.anchorMin = Vector2.zero;
@@ -188,7 +187,6 @@ public class QuizController : MonoBehaviour
         Question q = questions[currentIndex];
         bool correct = (index == q.correctIndex);
 
-        // تلوين الأزرار
         for (int i = 0; i < answerButtons.Length; i++)
         {
             answerButtons[i].interactable = false;

@@ -2,22 +2,62 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!29 &1
 SceneSettings:
-  m_PVSData: []
+  m_PhysicsScene: 0
+  m_Physics2DScene: 0
 --- !u!1045 &2
 EditorBuildSettings:
   m_Scenes: []
---- !u!207 &3
-AudioListener:
-  m_GameObject: {fileID: 0}
---- !u!20 &4
-Camera:
-  m_GameObject: {fileID: 5}
-  m_ClearFlags: 2
-  m_Near: 0.3
-  m_Far: 1000
-  m_FieldOfView: 60
---- !u!1 &5
+--- !u!1 &3
 GameObject:
+  m_Name: Main Camera
   m_Component:
   - {fileID: 4}
-  m_Name: Main Camera
+--- !u!20 &4
+Camera:
+  m_GameObject: {fileID: 3}
+  m_ClearFlags: 2
+--- !u!1 &5
+GameObject:
+  m_Name: GameManager
+  m_Component:
+  - {fileID: 6}
+--- !u!114 &6
+MonoBehaviour:
+  m_GameObject: {fileID: 5}
+  m_Script: {fileID: 11500000, guid: GameManager, type: 3}
+--- !u!1 &7
+GameObject:
+  m_Name: EventSystem
+  m_Component:
+  - {fileID: 8}
+  - {fileID: 9}
+--- !u!114 &8
+EventSystem:
+  m_GameObject: {fileID: 7}
+--- !u!114 &9
+StandaloneInputModule:
+  m_GameObject: {fileID: 7}
+--- !u!1 &10
+GameObject:
+  m_Name: Canvas
+  m_Component:
+  - {fileID: 11}
+  - {fileID: 12}
+--- !u!223 &11
+Canvas:
+  m_GameObject: {fileID: 10}
+  m_RenderMode: 0
+--- !u!114 &12
+CanvasScaler:
+  m_GameObject: {fileID: 10}
+  m_UiScaleMode: 1
+  m_ReferenceResolution: {x: 1080, y: 1920}
+--- !u!1 &13
+GameObject:
+  m_Name: MainMenuController
+  m_Component:
+  - {fileID: 14}
+--- !u!114 &14
+MonoBehaviour:
+  m_GameObject: {fileID: 13}
+  m_Script: {fileID: 11500000, guid: MainMenuController, type: 3}
