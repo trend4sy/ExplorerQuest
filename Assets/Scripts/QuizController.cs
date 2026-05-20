@@ -39,7 +39,15 @@ public class QuizController : MonoBehaviour
         get
         {
             if (_arabicFont == null)
+            {
                 _arabicFont = Resources.Load<TMP_FontAsset>("NotoNaskhArabic SDF");
+                if (_arabicFont == null)
+                {
+                    Font unityFont = Resources.Load<Font>("NotoNaskhArabic");
+                    if (unityFont != null)
+                        _arabicFont = TMP_FontAsset.CreateFontAsset(unityFont);
+                }
+            }
             return _arabicFont;
         }
     }
@@ -81,6 +89,11 @@ public class QuizController : MonoBehaviour
             es.AddComponent<StandaloneInputModule>();
         }
         transform.SetParent(canvasObj.transform, false);
+        RectTransform rt = gameObject.AddComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
+        rt.anchoredPosition = Vector2.zero;
     }
 
     TextMeshProUGUI MakeText(Transform parent, string name, string text, float x, float y, float w, float h, int fontSize, bool rtl = false)
@@ -115,7 +128,7 @@ public class QuizController : MonoBehaviour
             GameObject btnObj = new GameObject("Answer" + i);
             btnObj.transform.SetParent(transform, false);
             RectTransform rt = btnObj.AddComponent<RectTransform>();
-            rt.anchoredPosition = new Vector2(270 + (i % 2) * 540, 380 - (i / 2) * 140);
+            rt.anchoredPosition = new Vector2(-270 + (i % 2) * 540, 380 - (i / 2) * 140);
             rt.sizeDelta = new Vector2(480, 100);
             Image img = btnObj.AddComponent<Image>();
             img.color = normalColor;

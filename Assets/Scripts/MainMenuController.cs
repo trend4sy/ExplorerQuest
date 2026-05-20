@@ -22,7 +22,15 @@ public class MainMenuController : MonoBehaviour
         get
         {
             if (_arabicFont == null)
+            {
                 _arabicFont = Resources.Load<TMP_FontAsset>("NotoNaskhArabic SDF");
+                if (_arabicFont == null)
+                {
+                    Font unityFont = Resources.Load<Font>("NotoNaskhArabic");
+                    if (unityFont != null)
+                        _arabicFont = TMP_FontAsset.CreateFontAsset(unityFont);
+                }
+            }
             return _arabicFont;
         }
     }
