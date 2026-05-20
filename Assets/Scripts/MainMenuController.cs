@@ -1,19 +1,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
     [Header("UI References")]
-    public Text starsText;
+    public TextMeshProUGUI starsText;
     public Button[] worldButtons;
     public Image[] lockIcons;
-    public Text[] costTexts;
+    public TextMeshProUGUI[] costTexts;
 
     string[] worldEmojis = { "🚀", "🐠", "🌿", "❤️" };
     Color unlockedColor = new Color(0.4f, 0.85f, 0.5f);
     Color lockedColor   = new Color(0.7f, 0.7f, 0.7f);
     string[] worldNames = { "الفضاء", "المحيط", "الغابة", "جسم الإنسان" };
+
+    static TMP_FontAsset _arabicFont;
+    static TMP_FontAsset ArabicFont
+    {
+        get
+        {
+            if (_arabicFont == null)
+                _arabicFont = Resources.Load<TMP_FontAsset>("NotoNaskhArabic SDF");
+            return _arabicFont;
+        }
+    }
 
     void Start()
     {
@@ -47,11 +59,11 @@ public class MainMenuController : MonoBehaviour
 
         GameObject starsObj = new GameObject("StarsText");
         starsObj.transform.SetParent(canvas.transform, false);
-        starsText = starsObj.AddComponent<Text>();
-        starsText.font = FontHelper.GetDefaultFont();
+        starsText = starsObj.AddComponent<TextMeshProUGUI>();
+        starsText.font = ArabicFont;
         starsText.fontSize = 40;
-        starsText.color = Color.white;
-        starsText.alignment = TextAnchor.MiddleCenter;
+        starsText.alignment = TextAlignmentOptions.Center;
+        starsText.isRightToLeftText = true;
         RectTransform starsRect = starsObj.GetComponent<RectTransform>();
         starsRect.anchorMin = new Vector2(0.5f, 0.95f);
         starsRect.anchorMax = new Vector2(0.5f, 0.95f);
@@ -62,7 +74,7 @@ public class MainMenuController : MonoBehaviour
         int worldCount = 4;
         worldButtons = new Button[worldCount];
         lockIcons = new Image[worldCount];
-        costTexts = new Text[worldCount];
+        costTexts = new TextMeshProUGUI[worldCount];
 
         for (int i = 0; i < worldCount; i++)
         {
@@ -90,12 +102,12 @@ public class MainMenuController : MonoBehaviour
 
             GameObject txtObj = new GameObject("ButtonText");
             txtObj.transform.SetParent(btnObj.transform, false);
-            Text txt = txtObj.AddComponent<Text>();
-            txt.font = FontHelper.GetDefaultFont();
+            TextMeshProUGUI txt = txtObj.AddComponent<TextMeshProUGUI>();
+            txt.font = ArabicFont;
             txt.text = worldEmojis[i] + " " + worldNames[i];
             txt.fontSize = 44;
-            txt.alignment = TextAnchor.MiddleCenter;
-            txt.color = Color.white;
+            txt.alignment = TextAlignmentOptions.Center;
+            txt.isRightToLeftText = true;
             RectTransform txtRect = txtObj.GetComponent<RectTransform>();
             txtRect.anchorMin = Vector2.zero;
             txtRect.anchorMax = Vector2.one;
@@ -114,11 +126,11 @@ public class MainMenuController : MonoBehaviour
 
             GameObject costObj = new GameObject("CostText");
             costObj.transform.SetParent(container.transform, false);
-            Text costTxt = costObj.AddComponent<Text>();
-            costTxt.font = FontHelper.GetDefaultFont();
+            TextMeshProUGUI costTxt = costObj.AddComponent<TextMeshProUGUI>();
+            costTxt.font = ArabicFont;
             costTxt.fontSize = 22;
-            costTxt.alignment = TextAnchor.MiddleCenter;
-            costTxt.color = Color.white;
+            costTxt.alignment = TextAlignmentOptions.Center;
+            costTxt.isRightToLeftText = true;
             costTexts[i] = costTxt;
             RectTransform costRect = costObj.GetComponent<RectTransform>();
             costRect.anchorMin = new Vector2(0.85f, 0.7f);

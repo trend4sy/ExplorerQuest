@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class QuizController : MonoBehaviour
 {
     [Header("UI References")]
-    public Text questionText;
-    public Text emojiText;
+    public TextMeshProUGUI questionText;
+    public TextMeshProUGUI emojiText;
     public Button[] answerButtons;
-    public Text[] answerTexts;
-    public Text funFactText;
+    public TextMeshProUGUI[] answerTexts;
+    public TextMeshProUGUI funFactText;
     public GameObject funFactPanel;
-    public Text scoreText;
-    public Text progressText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI progressText;
     public GameObject celebrationPanel;
-    public Text celebrationText;
+    public TextMeshProUGUI celebrationText;
     public GameObject gameOverPanel;
-    public Text finalScoreText;
+    public TextMeshProUGUI finalScoreText;
 
     [Header("Colors")]
     public Color normalColor    = new Color(0.25f, 0.60f, 1.00f);
@@ -31,6 +32,17 @@ public class QuizController : MonoBehaviour
     bool answered = false;
 
     string[] worldKeys = { "Space", "Ocean", "Forest", "Body" };
+
+    static TMP_FontAsset _arabicFont;
+    static TMP_FontAsset ArabicFont
+    {
+        get
+        {
+            if (_arabicFont == null)
+                _arabicFont = Resources.Load<TMP_FontAsset>("NotoNaskhArabic SDF");
+            return _arabicFont;
+        }
+    }
 
     void Start()
     {
@@ -71,32 +83,32 @@ public class QuizController : MonoBehaviour
         transform.SetParent(canvasObj.transform, false);
     }
 
-    Text MakeText(Transform parent, string name, string text, float x, float y, float w, float h, int fontSize)
+    TextMeshProUGUI MakeText(Transform parent, string name, string text, float x, float y, float w, float h, int fontSize, bool rtl = false)
     {
         GameObject obj = new GameObject(name);
         obj.transform.SetParent(parent, false);
         RectTransform rt = obj.AddComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);
         rt.sizeDelta = new Vector2(w, h);
-        Text txt = obj.AddComponent<Text>();
-        txt.font = FontHelper.GetDefaultFont();
-        txt.text = text;
-        txt.fontSize = fontSize;
-        txt.alignment = TextAnchor.MiddleCenter;
-        txt.color = Color.white;
-        return txt;
+        TextMeshProUGUI tmp = obj.AddComponent<TextMeshProUGUI>();
+        tmp.font = ArabicFont;
+        tmp.text = text;
+        tmp.fontSize = fontSize;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.isRightToLeftText = rtl;
+        return tmp;
     }
 
     void CreateQuizUI()
     {
-        questionText = MakeText(transform, "QuestionText", "", 540, 750, 800, 100, 36);
+        questionText = MakeText(transform, "QuestionText", "", 540, 750, 800, 100, 36, true);
         emojiText = MakeText(transform, "EmojiText", "", 540, 600, 200, 80, 48);
         scoreText = MakeText(transform, "ScoreText", "⭐ 0", 100, 900, 200, 50, 24);
-        scoreText.alignment = TextAnchor.MiddleLeft;
+        scoreText.alignment = TextAlignmentOptions.MidlineLeft;
         progressText = MakeText(transform, "ProgressText", "0/5", 980, 900, 200, 50, 24);
-        progressText.alignment = TextAnchor.MiddleRight;
+        progressText.alignment = TextAlignmentOptions.MidlineRight;
         answerButtons = new Button[4];
-        answerTexts = new Text[4];
+        answerTexts = new TextMeshProUGUI[4];
         for (int i = 0; i < 4; i++)
         {
             int idx = i;
@@ -113,11 +125,11 @@ public class QuizController : MonoBehaviour
             answerButtons[i] = btn;
             GameObject txtObj = new GameObject("Text");
             txtObj.transform.SetParent(btnObj.transform, false);
-            Text txt = txtObj.AddComponent<Text>();
-            txt.font = FontHelper.GetDefaultFont();
+            TextMeshProUGUI txt = txtObj.AddComponent<TextMeshProUGUI>();
+            txt.font = ArabicFont;
             txt.fontSize = 22;
-            txt.alignment = TextAnchor.MiddleCenter;
-            txt.color = Color.white;
+            txt.alignment = TextAlignmentOptions.Center;
+            txt.isRightToLeftText = true;
             RectTransform txtRt = txtObj.GetComponent<RectTransform>();
             txtRt.anchorMin = Vector2.zero;
             txtRt.anchorMax = Vector2.one;
@@ -131,7 +143,7 @@ public class QuizController : MonoBehaviour
         fpRt.sizeDelta = new Vector2(800, 300);
         Image fpImg = fp.AddComponent<Image>();
         fpImg.color = new Color(0, 0, 0, 0.8f);
-        funFactText = MakeText(fp.transform, "FunFactText", "", 0, 0, 700, 200, 20);
+        funFactText = MakeText(fp.transform, "FunFactText", "", 0, 0, 700, 200, 20, true);
         funFactPanel = fp;
         funFactPanel.SetActive(false);
         GameObject cp = new GameObject("CelebrationPanel");
@@ -141,7 +153,7 @@ public class QuizController : MonoBehaviour
         cpRt.sizeDelta = new Vector2(800, 300);
         Image cpImg = cp.AddComponent<Image>();
         cpImg.color = new Color(0, 0, 0, 0.8f);
-        celebrationText = MakeText(cp.transform, "CelebrationText", "🎉", 0, 0, 700, 200, 28);
+        celebrationText = MakeText(cp.transform, "CelebrationText", "🎉", 0, 0, 700, 200, 28, true);
         celebrationPanel = cp;
         celebrationPanel.SetActive(false);
         GameObject gp = new GameObject("GameOverPanel");
@@ -151,7 +163,7 @@ public class QuizController : MonoBehaviour
         gpRt.sizeDelta = new Vector2(800, 400);
         Image gpImg = gp.AddComponent<Image>();
         gpImg.color = new Color(0, 0, 0, 0.8f);
-        finalScoreText = MakeText(gp.transform, "FinalScoreText", "", 0, 0, 700, 200, 28);
+        finalScoreText = MakeText(gp.transform, "FinalScoreText", "", 0, 0, 700, 200, 28, true);
         gameOverPanel = gp;
         gameOverPanel.SetActive(false);
     }
